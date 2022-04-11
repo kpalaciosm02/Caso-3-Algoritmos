@@ -1,4 +1,7 @@
 #include "main.hpp"
+#include "ObserverPattern.h"
+
+using namespace std;
 
 //Recorre el elemento raíz del documento
 void extractXMLData(xml_document<>* doc){
@@ -28,6 +31,33 @@ void extractNodeData(xml_node<>* node){
     }
 }
 
+class AnimationGenerator : public Observer{
+public:
+    AnimationGenerator(){}
+    ~AnimationGenerator(){}
+};
+
+class Selection : public Subject{
+private:
+public:
+    Selection(){}
+    ~Selection(){}
+};
+
+class Routing : public Subject{
+private:
+public:
+    Routing(){}
+    ~Routing(){}
+};
+
+class Generation : public Subject{
+private:
+public:
+    Generation(){}
+    ~Generation(){}
+};
+
 int main(){
     //Leer XML
     file<> file("logo_bluetooth.svg"); // Lee y carga el archivo en memoria
@@ -36,4 +66,6 @@ int main(){
 
     //Recorrer elementos y atributos
     extractXMLData(&myDoc);
+
+    return 0;
 }

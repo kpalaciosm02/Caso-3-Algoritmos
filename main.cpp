@@ -31,6 +31,20 @@ void extractNodeData(xml_node<>* node){
     }
 }
 
+void SeparePathElements(xml_document<>* myDoc){
+    xml_node<>* path = myDoc->first_node()->first_node("g");
+    for (path = path->first_node(); path != NULL; path = path->next_sibling()){
+        cout << "Nombre:" << path->name() << endl;
+        xml_attribute<>* direction = path->first_attribute("d");
+        cout << "Atributo: " << direction->name() << endl;
+        cout << "Valor: " << direction->value() << endl;
+    }
+}
+
+void Seleccion(){
+
+}
+
 class AnimationGenerator : public Observer{
 public:
     AnimationGenerator(){}
@@ -60,12 +74,20 @@ public:
 
 int main(){
     //Leer XML
-    file<> file("logo_bluetooth.svg"); // Lee y carga el archivo en memoria
+    file<> file("test.svg"); // Lee y carga el archivo en memoria
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
     //Recorrer elementos y atributos
-    extractXMLData(&myDoc);
+    SeparePathElements(&myDoc);
+
+    vector<string> colors = {"#00008B", "#808080"};
+    vector<string> points = {};
+
+    //Document to String
+    //string strXML;
+    //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
+    //cout << strXML << endl;
 
     return 0;
 }

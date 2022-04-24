@@ -1,5 +1,6 @@
 #include "main.hpp"
 #include "ObserverPattern.h"
+#include <typeinfo>
 
 using namespace std;
 
@@ -34,11 +35,25 @@ void extractNodeData(xml_node<>* node){
 void SeparePathElements(xml_document<>* myDoc){
     xml_node<>* path = myDoc->first_node()->first_node("g");
     for (path = path->first_node(); path != NULL; path = path->next_sibling()){
-        cout << "Nombre:" << path->name() << endl;
+        cout << "Nombre:" << typeid(path->name()).name() << endl;
         xml_attribute<>* direction = path->first_attribute("d");
         cout << "Atributo: " << direction->name() << endl;
         cout << "Valor: " << direction->value() << endl;
     }
+}
+
+vector<string> split(string path, char limit, vector<string> splitted){
+    path += limit;
+    string tmp = "";
+    for (int i = 0; i < path.length(); i++){
+        if (path[i] == limit){
+            splitted.push_back(tmp);
+            tmp = "";
+            //i++;
+        }
+        tmp += path[i];
+    }
+    return splitted;
 }
 
 void Seleccion(){
@@ -84,6 +99,14 @@ int main(){
     vector<string> colors = {"#00008B", "#808080"};
     vector<string> points = {};
 
+    vector<string> splitted = {};
+    string valor = "M2868.463,9.696C2111.527,298.25,780.675,781.621,5.718,1048.912C773.331,756.199,2104.345,273.336,2868.463,9.696z";
+    splitted = split(valor,'C',splitted);
+    cout << "Splitted by C: ";
+    for (vector<string>::const_iterator i = splitted.begin(); i != splitted.end(); i++){
+        cout << *i << " -> ";
+    }
+    cout << endl;
     //Document to String
     //string strXML;
     //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable

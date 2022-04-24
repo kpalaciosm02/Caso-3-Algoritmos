@@ -1,45 +1,25 @@
 #include "main.hpp"
 #include "ObserverPattern.h"
-#include <typeinfo>
+#include "path.hpp"
+#include <vector>
 
 using namespace std;
 
-//Recorre el elemento raíz del documento
-void extractXMLData(xml_document<>* doc){
-    xml_node<>* node = doc->first_node();
+/*Function that opens the XML document, extract the data from the XML document,
+inserts this data in a vector and returns this vector*/
 
-    cout << "Etiqueta: " << node->name() << endl;
-    for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
-        cout << " Atributo: " << attrib->name() << endl;
-        cout << "\tValor: " << attrib->value() << endl;
-  }
-    extractNodeData(node);
-}
+vector<path> SeparePathElements(xml_document<>* myDoc){
+    vector<path> paths;
+    xml_node<>* pathXML = myDoc->first_node()->first_node("g");
+    for (pathXML = pathXML->first_node(); pathXML != NULL; pathXML = pathXML->next_sibling()){
+        string id_value = pathXML->first_attribute("id")->value();
+        string opacity_value = pathXML->first_attribute("opacity")->value();
+        string direction_value = pathXML->first_attribute("d")->value();
 
-//Recorre el resto de elementos del documento
-void extractNodeData(xml_node<>* node){
-    for (node = node->first_node(); node != NULL; node = node->next_sibling()){
-        if (node->type() == node_element){
-            cout << "Etiqueta: " << node->name() << endl;
-
-            for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
-                cout << "\tAtributo: " << attrib->name() << endl;
-                cout << "\t-Valor: " << attrib->value() << endl;
-            }
-
-            extractNodeData(node);
-        }
+        path p(id_value, opacity_value, direction_value);
+        paths.push_back(p);
     }
-}
-
-void SeparePathElements(xml_document<>* myDoc){
-    xml_node<>* path = myDoc->first_node()->first_node("g");
-    for (path = path->first_node(); path != NULL; path = path->next_sibling()){
-        cout << "Nombre:" << typeid(path->name()).name() << endl;
-        xml_attribute<>* direction = path->first_attribute("d");
-        cout << "Atributo: " << direction->name() << endl;
-        cout << "Valor: " << direction->value() << endl;
-    }
+    return paths;
 }
 
 vector<string> split(string path, char limit, vector<string> splitted){
@@ -56,8 +36,9 @@ vector<string> split(string path, char limit, vector<string> splitted){
     return splitted;
 }
 
-void Seleccion(){
-
+void Seleccion(xml_document<>* myDoc, vector<string> points, vector<string> colors){
+    SeparePathElements(myDoc);
+    
 }
 
 class AnimationGenerator : public Observer{

@@ -36,6 +36,21 @@ vector<string> split(string path, char limit, vector<string> splitted){
     return splitted;
 }
 
+vector<string> splitt_with_array(string path, char limits[18], vector<string> splitted){ //Possible limits: mlhvcsqta
+    path += '$';
+    string tmp = "";
+    for (int i = 0; i < path.length(); i++){
+        for (int j = 0; j < 18; j++){
+            if (path[i] == limits[j] || path[i] == '$'){
+                splitted.push_back(tmp);
+                tmp = "";
+            }
+            tmp += path[i];
+        }
+    }
+    return splitted;
+}
+
 void Seleccion(xml_document<>* myDoc, vector<string> points, vector<string> colors){
     SeparePathElements(myDoc);
     
@@ -68,6 +83,18 @@ public:
     ~Generation(){}
 };
 
+void SeparatePaths(vector<path> paths){
+    int counter = 0;
+    vector<string> pathsM = {};
+    vector<string> pathsC = {};
+
+    for (vector<path>::const_iterator i = paths.begin(); i != paths.end(); i++){
+        path path = paths.at(counter);
+        counter++;
+        string d = path.get_d();
+    }
+}
+
 int main(){
     //Leer XML
     file<> file("test.svg"); // Lee y carga el archivo en memoria
@@ -75,7 +102,7 @@ int main(){
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
     //Recorrer elementos y atributos
-    SeparePathElements(&myDoc);
+    vector<path> paths = SeparePathElements(&myDoc);
 
     vector<string> colors = {"#00008B", "#808080"};
     vector<string> points = {};
@@ -88,6 +115,14 @@ int main(){
         cout << *i << " -> ";
     }
     cout << endl;
+
+    char array_char[] = {'m','l','h','v','c','s','q','t','a'};
+    vector<string> splitted2 = splitt_with_array(valor,array_char,splitted2);
+    for (vector<string>::const_iterator i = splitted2.begin(); i != splitted2.end(); i++){
+        cout << *i << " -> ";
+    }
+    cout << endl;
+
     //Document to String
     //string strXML;
     //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable

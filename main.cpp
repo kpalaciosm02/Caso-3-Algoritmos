@@ -37,7 +37,7 @@ vector<string> split(string path, char limit, vector<string> splitted){
 }
 
 vector<string> splitt_with_array(string path, char limits[18], vector<string> splitted){ //Possible limits: mlhvcsqta
-    path += '$';
+    //path += '$';
     string tmp = "";
     for (int i = 0; i < path.length(); i++){
         for (int j = 0; j < 18; j++){
@@ -95,14 +95,53 @@ void SeparatePaths(vector<path> paths){
     }
 }
 
+void takeNumbers(string path){// recibe la d
+    int startIndex = 0;
+    int finalIndex = 0;
+    for (int i = 0; i < path.length(); i++){
+        if (path[i] == 'C' || path[i] == 'S' || path[i] == 'M'){
+            startIndex = i + 1;
+        }
+        else if (path[i] == ','){
+            finalIndex = i;
+            string number = path.substr(startIndex,finalIndex);
+            cout << "Numero sacado: " << number << endl;
+            //break;
+        }
+    }
+}
+
+void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<string> relatives){//recibe el vector de paths d y llena los vectores de paths absolutos y relativos
+    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
+    for (vector<string>::const_iterator i = paths.begin(); i != paths.end(); i++){
+        string path = *i;
+        if (path.find('-') != -1){
+            relatives.push_back(path);
+        }
+        else{
+            absolutes.push_back(path);
+        }
+    }
+    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
+}
+
 int main(){
     //Leer XML
-    file<> file("test.svg"); // Lee y carga el archivo en memoria
+    file<> file("wifi-1.svg"); // Lee y carga el archivo en memoria
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
     //Recorrer elementos y atributos
     vector<path> paths = SeparePathElements(&myDoc);
+    vector<string> pathsD = {};
+
+    for (vector<path>::const_iterator i = paths.begin(); i != paths.end(); i++){
+        path p = *i;
+        pathsD.push_back(p.get_d());
+    }
+    vector<string> absolutes = {};
+    vector<string> relatives = {};
+    checkIfAbsolute(pathsD,absolutes,relatives);
 
     vector<string> colors = {"#00008B", "#808080"};
     vector<string> points = {};
@@ -111,18 +150,18 @@ int main(){
     string valor = "M2868.463,9.696C2111.527,298.25,780.675,781.621,5.718,1048.912C773.331,756.199,2104.345,273.336,2868.463,9.696z";
     splitted = split(valor,'C',splitted);
     cout << "Splitted by C: ";
-    for (vector<string>::const_iterator i = splitted.begin(); i != splitted.end(); i++){
+    /*for (vector<string>::const_iterator i = splitted.begin(); i != splitted.end(); i++){
         cout << *i << " -> ";
     }
-    cout << endl;
+    cout << endl;*/
 
     char array_char[] = {'m','l','h','v','c','s','q','t','a'};
     vector<string> splitted2 = splitt_with_array(valor,array_char,splitted2);
-    for (vector<string>::const_iterator i = splitted2.begin(); i != splitted2.end(); i++){
+    /*for (vector<string>::const_iterator i = splitted2.begin(); i != splitted2.end(); i++){
         cout << *i << " -> ";
     }
-    cout << endl;
-
+    cout << "Take numbers: " << endl;
+    takeNumbers(valor);*/
     //Document to String
     //string strXML;
     //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable

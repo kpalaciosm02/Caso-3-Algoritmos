@@ -125,9 +125,19 @@ void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<stri
     cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
 }
 
+void RelativeToAbsolute(vector<string> relatives){
+    char array_char[] = {'m','l','h','v','c','s','q','t','a'};
+    vector<string> splitted = {};
+    for(vector<string>::const_iterator i = relatives.begin(); i != relatives.end(); i++){
+        string path = *i;
+        splitt_with_array(path, array_char, splitted);
+    }
+}
+
+
 int main(){
     //Leer XML
-    file<> file("wifi-1.svg"); // Lee y carga el archivo en memoria
+    file<> file("test.svg"); // Lee y carga el archivo en memoria
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 

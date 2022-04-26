@@ -102,12 +102,14 @@ int main(){
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
     //Recorrer elementos y atributos
-    vector<path> paths = SeparePathElements(&myDoc);
+    SeparePathElements(&myDoc);
+    
+    
 
     vector<string> colors = {"#00008B", "#808080"};
     vector<string> points = {};
 
-    vector<string> splitted = {};
+    /*vector<string> splitted = {};
     string valor = "M2868.463,9.696C2111.527,298.25,780.675,781.621,5.718,1048.912C773.331,756.199,2104.345,273.336,2868.463,9.696z";
     splitted = split(valor,'C',splitted);
     cout << "Splitted by C: ";
@@ -121,7 +123,7 @@ int main(){
     for (vector<string>::const_iterator i = splitted2.begin(); i != splitted2.end(); i++){
         cout << *i << " -> ";
     }
-    cout << endl;
+    cout << endl;*/
 
     //Document to String
     //string strXML;

@@ -126,15 +126,52 @@ void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<stri
     cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
 }
 
-void RelativeToAbsolute(vector<string> relatives){
+/*void RelativeToAbsolute(vector<string> relatives){
     char array_char[] = {'m','l','h','v','c','s','q','t','a'};
     vector<string> splitted = {};
     for(vector<string>::const_iterator i = relatives.begin(); i != relatives.end(); i++){
         string path = *i;
         splitt_with_array(path, array_char, splitted);
     }
-}
+}*/
 
+void takeCoordsFromAbsolutePath(string path, vector<float> x, vector<float> y){//agarra un path absoluto y saca todas las x y todas las y y las mete en vectores
+    int pathLarge = path.size();//encontrar la manera de sacar estos 2 vectores de la funcion para usarlos luego
+    string sNumber = "";
+    float fNumber = 0.0;
+    bool isX = true;
+    for (int i = 0; i < pathLarge; i++){
+        if (path[i] == 'M' || path[i] == 'L' || path[i] == 'H' || path[i] == 'V' || path[i] == 'C' || path[i] == 'S' || path[i] == 'Q' || path[i] == 'T' || path[i] == 'A' || path[i] == 'z' || path[i] == ','){
+            if (i != 0){
+                //cout << "sNumber: " << sNumber << endl;
+                fNumber = stof(sNumber);
+                if (isX){
+                    x.push_back(fNumber);
+                    isX = false;
+                }
+                else{
+                    y.push_back(fNumber);
+                    isX = true;
+                }
+                fNumber = 0.0;
+                sNumber = "";
+            }
+            
+        }
+        else {
+            sNumber += path[i];
+        }
+    }
+    cout << x.size() << endl;
+    for (vector<float>::const_iterator i = x.begin(); i != x.end(); i++){
+        cout << *i << "->";
+    }
+    cout << endl;
+    for (vector<float>::const_iterator i = y.begin(); i != y.end(); i++){
+        cout << *i << "->";
+    }
+    cout << endl;
+}
 
 
 
@@ -181,8 +218,6 @@ int main(){
 
     vector<string> colors = {"#00008B", "#808080"};
     vector<float> points= {500, 700, 800, 200, 400, 500};
-
-    
 
     vector<string> splitted = {};
     string valor = "M2868.463,9.696C2111.527,298.25,780.675,781.621,5.718,1048.912C773.331,756.199,2104.345,273.336,2868.463,9.696z";

@@ -4,6 +4,7 @@
 #include <vector>
 
 using namespace std;
+using std::pair;
 
 /*Function that opens the XML document, extract the data from the XML document,
 inserts this data in a vector and returns this vector*/
@@ -135,9 +136,34 @@ void RelativeToAbsolute(vector<string> relatives){
 }
 
 
+
+
+vector<float> MaxAndMin(vector<float> PathPoints){
+    float max = PathPoints[0];
+    float min = PathPoints[0];
+    vector<float> MaxMin = {};
+
+    for(size_t i = 0; i < PathPoints.size() ; i++){
+        if(PathPoints[i] > max)
+            max = PathPoints[i];
+        if(PathPoints[i] < min)
+            min = PathPoints[i];
+    }
+    MaxMin.push_back(min);
+    MaxMin.push_back(max);
+
+    return MaxMin;
+}
+
 int main(){
+    vector<float> Xpoints = {500, 700, 800, 200, 400, 500};
+    vector<float> Ypoints = {600, 700, 900, 100, 300, 500};
+
+    MaxAndMin(Xpoints);
+
+
     //Leer XML
-    file<> file("test.svg"); // Lee y carga el archivo en memoria
+    /*file<> file("test.svg"); // Lee y carga el archivo en memoria
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
@@ -154,9 +180,11 @@ int main(){
     checkIfAbsolute(pathsD,absolutes,relatives);
 
     vector<string> colors = {"#00008B", "#808080"};
-    vector<string> points = {};
+    vector<float> points= {500, 700, 800, 200, 400, 500};
 
-    /*vector<string> splitted = {};
+    
+
+    vector<string> splitted = {};
     string valor = "M2868.463,9.696C2111.527,298.25,780.675,781.621,5.718,1048.912C773.331,756.199,2104.345,273.336,2868.463,9.696z";
     splitted = split(valor,'C',splitted);
     cout << "Splitted by C: ";

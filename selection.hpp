@@ -33,29 +33,16 @@ vector<string> SeparatePaths(vector<path> paths){
     return pathsD;
 }
 
-/*Function that checks if a path is absolute or relative*/
-void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<string> relatives){//recibe el vector de paths d y llena los vectores de paths absolutos y relativos
-    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
-    for (vector<string>::const_iterator i = paths.begin(); i != paths.end(); i++){
-        string path = *i;
-        if (path.find('-') != -1){
-            relatives.push_back(path);
-        }
-        else{
-            absolutes.push_back(path);
-        }
-    }
-    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
-}
-
 /*Function that takes the coords from an absolute path and separe them in vectors of x and y*/
-void takeCoordsFromAbsolutePath(string path, vector<float> x, vector<float> y){//agarra un path absoluto y saca todas las x y todas las y y las mete en vectores
+vector<point> takeCoordsFromAbsolutePath(string path, string id, vector<point>points){//agarra un path absoluto y saca todas las x y todas las y y las mete en vectores
     int pathLarge = path.size();//encontrar la manera de sacar estos 2 vectores de la funcion para usarlos luego
     string sNumber = "";
     float fNumber = 0.0;
     bool isX = true;
+    vector<float> x;
+    vector<float> y;
     for (int i = 0; i < pathLarge; i++){
-        if (path[i] == 'M' || path[i] == 'L' || path[i] == 'H' || path[i] == 'V' || path[i] == 'C' || path[i] == 'S' || path[i] == 'Q' || path[i] == 'T' || path[i] == 'A' || path[i] == 'z' || path[i] == ','){
+        if (path[i] == 'M' || path[i] == 'L' || path[i] == 'H' || path[i] == 'V' || path[i] == 'C' || path[i] == 'S' || path[i] == 'Q' || path[i] == 'T' || path[i] == 'A' || path[i] == 'z' || path[i] == ',' || path[i] == 'Z'){
             if (i != 0){
                 //cout << "sNumber: " << sNumber << endl;
                 fNumber = stof(sNumber);
@@ -76,6 +63,38 @@ void takeCoordsFromAbsolutePath(string path, vector<float> x, vector<float> y){/
             sNumber += path[i];
         }
     }
+    for (int i = 0; i < x.size(); i++){
+        point point(x.at(i),y.at(i),id);
+        points.push_back(point);
+        //point.print();
+    }
+    return points;
+}
+/*Function that gets all the ids from the paths in the same order as the ds from the SeparePathsFunction*/
+vector<string> get_ids(vector<path> paths){
+    int counter = 0;
+    vector<string> ids = {};
+    for (vector<path>::const_iterator i = paths.begin(); i != paths.end(); i++){
+        path path = paths.at(counter);
+        ids.push_back(path.get_id());
+        counter++;
+    }
+    return ids;
+}
+
+/*Function that checks if a path is absolute or relative*/
+void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<string> relatives){//recibe el vector de paths d y llena los vectores de paths absolutos y relativos
+    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
+    for (vector<string>::const_iterator i = paths.begin(); i != paths.end(); i++){
+        string path = *i;
+        if (path.find('-') != -1){
+            relatives.push_back(path);
+        }
+        else{
+            absolutes.push_back(path);
+        }
+    }
+    cout << "Largo absolutos: " << absolutes.size() << " Largo relativos: " << relatives.size() << endl;
 }
 
 /*Function that determine the max and the min of a serie of absolute points*/

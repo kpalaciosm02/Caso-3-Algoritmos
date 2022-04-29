@@ -71,9 +71,16 @@ void Seleccion(xml_document<>* myDoc, vector<float> points){
     vector<string> relatives = {};
 
     vector<path> pathsS = SeparePathElements(myDoc);
-    vector<string> pathsD = SeparatePaths(pathsS);
-    checkIfAbsolute(pathsD, absolutes, relatives);
-    
+    vector<string> pathsD = SeparatePaths(pathsS);    //todos los paths D
+    vector<string> idPaths = get_ids(pathsS);         //todos los paths ID
+    //checkIfAbsolute(pathsD, absolutes, relatives);
+    for (vector<string>::const_iterator i = idPaths.begin(); i != idPaths.end(); i++){
+        cout << *i << " -> ";
+    }
+    cout << endl;
+    vector<float>xs = {};
+    vector<float>ys = {};
+    takeCoordsFromAbsolutePath(pathsD.at(1),xs,ys,idPaths.at(1));
 }
 
 class AnimationGenerator : public Observer{

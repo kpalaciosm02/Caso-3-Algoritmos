@@ -80,7 +80,7 @@ void Seleccion(xml_document<>* myDoc, vector<float> points){
     cout << endl;
     vector<float>xs = {};
     vector<float>ys = {};
-    takeCoordsFromAbsolutePath(pathsD.at(1),xs,ys,idPaths.at(1));
+    //takeCoordsFromAbsolutePath(pathsD.at(1),idPaths.at(1));
 }
 
 class AnimationGenerator : public Observer{

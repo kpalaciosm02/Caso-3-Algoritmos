@@ -1,5 +1,6 @@
 #include "ObserverPattern.h"
 #include "selection.hpp"
+#include "main.hpp"
 
 using namespace std;
 
@@ -69,18 +70,22 @@ void takeNumbers(string path){// recibe la d
 void Seleccion(xml_document<>* myDoc, vector<float> points){
     vector<string> absolutes = {};
     vector<string> relatives = {};
+    vector<point> pointsS = {};
 
     vector<path> pathsS = SeparePathElements(myDoc);
     vector<string> pathsD = SeparatePaths(pathsS);    //todos los paths D
     vector<string> idPaths = get_ids(pathsS);         //todos los paths ID
-    //checkIfAbsolute(pathsD, absolutes, relatives);
     for (vector<string>::const_iterator i = idPaths.begin(); i != idPaths.end(); i++){
         cout << *i << " -> ";
     }
     cout << endl;
-    vector<float>xs = {};
-    vector<float>ys = {};
-    //takeCoordsFromAbsolutePath(pathsD.at(1),idPaths.at(1));
+    vector<float> xs = {};
+    vector<float> ys = {};
+    pointsS = takeCoordsFromAbsolutePath(pathsD.at(0),idPaths.at(0), pointsS);
+    vector<point>MinMax = MaxAndMinX(pointsS);
+    for(int i = 0; i < MinMax.size(); i++){
+        MinMax.at(i).print();
+    }
 }
 
 class AnimationGenerator : public Observer{
@@ -112,7 +117,7 @@ public:
 
 int main(){
     //Leer XML
-    file<> file("test.svg"); // Lee y carga el archivo en memoria
+    file<> file("test2.svg"); // Lee y carga el archivo en memoria
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 

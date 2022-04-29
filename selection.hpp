@@ -98,21 +98,50 @@ void checkIfAbsolute(vector<string> paths, vector<string> absolutes, vector<stri
 }
 
 /*Function that determine the max and the min of a serie of absolute points*/
-vector<float> MaxAndMin(vector<float> PathPoints){
-    float max = PathPoints[0];
-    float min = PathPoints[0];
-    vector<float> MaxMin = {};
+vector<point> MaxAndMinX(vector<point> SVGPoints){
+    float max = SVGPoints[0].get_x();
+    float min = SVGPoints[0].get_x();
+    point maxPoint = SVGPoints[0];
+    point minPoint = SVGPoints[0];
+    vector<point> pointsMinMaxX = {};
 
-    for(size_t i = 0; i < PathPoints.size() ; i++){
-        if(PathPoints[i] > max)
-            max = PathPoints[i];
-        if(PathPoints[i] < min)
-            min = PathPoints[i];
+    for(size_t i = 0; i < SVGPoints.size() ; i++){
+        if(SVGPoints[i].get_x() > max)
+            max = SVGPoints[i].get_x();
+            maxPoint = SVGPoints[i];
+
+        if(SVGPoints[i].get_x() < min)
+            min = SVGPoints[i].get_x();
+            minPoint = SVGPoints[i];
     }
-    MaxMin.push_back(min);
-    MaxMin.push_back(max);
+    
+    pointsMinMaxX.push_back(minPoint);
+    pointsMinMaxX.push_back(maxPoint);
 
-    return MaxMin;
+    return pointsMinMaxX;
+}
+
+vector<point> MaxAndMinY(vector<point> SVGPoints){
+    float max = SVGPoints[0].get_y();
+    float min = SVGPoints[0].get_y();
+    point maxPoint = SVGPoints[0];
+    point minPoint = SVGPoints[0];
+    vector<point> pointsMinMaxY = {};
+
+    for(size_t i = 0; i < SVGPoints.size() ; i++){
+        if(SVGPoints[i].get_y() > max)
+            max = SVGPoints[i].get_y();
+            maxPoint = SVGPoints[i];
+
+        if(SVGPoints[i].get_y() < min)
+            min = SVGPoints[i].get_y();
+            minPoint = SVGPoints[i];
+    }
+
+    pointsMinMaxY.push_back(minPoint);
+    pointsMinMaxY.push_back(maxPoint);
+    
+    return pointsMinMaxY;
 }
 
 /*Function that compares the points given by the user with the max x, min x, max y, min y of the SVG*/

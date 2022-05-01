@@ -116,7 +116,6 @@ vector<point> MaxAndMinX(vector<point> SVGPoints){
             minPoint = SVGPoints[i];
         }
     }
-    cout << "Max: " << max << "Min: " << min << endl;
     pointsMinMaxX.push_back(minPoint);
     pointsMinMaxX.push_back(maxPoint);
 
@@ -152,16 +151,19 @@ void compareUserAndSvgPoints(vector<point> MaxMinX, vector<point> MaxMinY, vecto
     bool isX = true;
     for(size_t i = 0; i < points.size(); i++){
         if(isX){
-            if(points[i] > MaxMinX[i].get_x() || points[i] < MaxMinX[i+1].get_x()){
-                isX = false;
+            isX = false;
+            if(points[i] > MaxMinX[0].get_x() && points[i] < MaxMinX[1].get_x()){
                 cout << "Yes" << endl;
+            }else{
+                cout << "No equis" << endl;
             }
         }
         else{
-            if(points[i] > MaxMinY[i].get_y() || points[i] < MaxMinY[i+1].get_y()){
-                isX = true;
+            isX = true;
+            if(points[i] > MaxMinY[0].get_y() && points[i] < MaxMinY[1].get_y()){
                 cout << "No" << endl;
-
+            }else{
+                cout << "No y" << endl;
             }
         }
     }

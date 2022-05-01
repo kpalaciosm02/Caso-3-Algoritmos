@@ -82,10 +82,15 @@ void Seleccion(xml_document<>* myDoc, vector<float> points){
     vector<float> xs = {};
     vector<float> ys = {};
     pointsS = takeCoordsFromAbsolutePath(pathsD.at(0),idPaths.at(0), pointsS);
-    vector<point>MinMax = MaxAndMinX(pointsS);
-    for(int i = 0; i < MinMax.size(); i++){
-        MinMax.at(i).print();
+    vector<point>MinMaxX = MaxAndMinX(pointsS);
+    vector<point>MinMaxY = MaxAndMinY(pointsS);
+    for(int i = 0; i < MinMaxX.size(); i++){
+        MinMaxX.at(i).print();
     }
+    for(int i = 0; i < MinMaxY.size(); i++){
+        MinMaxY.at(i).print();
+    }
+    compareUserAndSvgPoints(MinMaxX, MinMaxY, points);
 }
 
 class AnimationGenerator : public Observer{
@@ -121,7 +126,7 @@ int main(){
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
-    vector<float> UserPoints = {500, 700, 800, 200, 400, 500, 600, 700, 900, 100, 300, 500};
+    vector<float> UserPoints = {600, 700, 800, 300, 400, 500, 600, 700, 900, 100, 300, 500};
     vector<string> colors = {"#00008B", "#808080"};
      
     Seleccion(&myDoc, UserPoints);

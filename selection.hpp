@@ -147,24 +147,22 @@ vector<point> MaxAndMinY(vector<point> SVGPoints){
 }
 
 /*Function that compares the points given by the user with the max x, min x, max y, min y of the SVG*/
-void compareUserAndSvgPoints(vector<point> MaxMinX, vector<point> MaxMinY, vector<float> points){
-    bool isX = true;
-    for(size_t i = 0; i < points.size(); i++){
-        if(isX){
-            isX = false;
-            if(points[i] > MaxMinX[0].get_x() && points[i] < MaxMinX[1].get_x()){
-                cout << "Yes" << endl;
-            }else{
-                cout << "No equis" << endl;
+vector<path> compareUserAndSvgPoints(vector<point> MaxMinX, vector<point> MaxMinY, vector<float> points, vector<path> pathsS, vector<path> pathsAfterSelection){
+    string idPath;
+    for(size_t i = 0; i < points.size(); i++){  //n son los puntos que nos envía el usuario
+        if(points[i] > MaxMinX[0].get_x() && points[i] < MaxMinX[1].get_x()){
+            if(points[i+1] > MaxMinY[0].get_y() && points[i+1] < MaxMinY[1].get_y()){
+                idPath = MaxMinX[0].get_idPath();
+                break;
             }
         }
-        else{
-            isX = true;
-            if(points[i] > MaxMinY[0].get_y() && points[i] < MaxMinY[1].get_y()){
-                cout << "No" << endl;
-            }else{
-                cout << "No y" << endl;
-            }
+        i++;
+    }
+    for(size_t i = 0; i < pathsS.size(); i++){
+        if(pathsS[i].get_id() == idPath){
+            pathsAfterSelection.push_back(pathsS[i]);
         }
     }
+
+    return pathsAfterSelection;
 }

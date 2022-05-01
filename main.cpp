@@ -125,7 +125,6 @@ int main(){
     vector<string> colors = {"#00008B", "#808080"};
      
     Seleccion(&myDoc, UserPoints);
-    compareUserAndSvgPoints(,UserPoints);
 
    /*
     for (vector<path>::const_iterator i = paths.begin(); i != paths.end(); i++){

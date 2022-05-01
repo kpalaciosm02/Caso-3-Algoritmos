@@ -106,21 +106,23 @@ vector<point> MaxAndMinX(vector<point> SVGPoints){
     vector<point> pointsMinMaxX = {};
 
     for(size_t i = 0; i < SVGPoints.size() ; i++){
-        if(SVGPoints[i].get_x() > max)
+        if(SVGPoints[i].get_x() > max){
             max = SVGPoints[i].get_x();
             maxPoint = SVGPoints[i];
+        }
 
-        if(SVGPoints[i].get_x() < min)
+        if(SVGPoints[i].get_x() < min){
             min = SVGPoints[i].get_x();
             minPoint = SVGPoints[i];
+        }
     }
-    
+    cout << "Max: " << max << "Min: " << min << endl;
     pointsMinMaxX.push_back(minPoint);
     pointsMinMaxX.push_back(maxPoint);
 
     return pointsMinMaxX;
 }
-
+/*Takes the minimal and the maximal Y points of a path*/
 vector<point> MaxAndMinY(vector<point> SVGPoints){
     float max = SVGPoints[0].get_y();
     float min = SVGPoints[0].get_y();
@@ -129,13 +131,14 @@ vector<point> MaxAndMinY(vector<point> SVGPoints){
     vector<point> pointsMinMaxY = {};
 
     for(size_t i = 0; i < SVGPoints.size() ; i++){
-        if(SVGPoints[i].get_y() > max)
+        if(SVGPoints[i].get_y() > max){
             max = SVGPoints[i].get_y();
             maxPoint = SVGPoints[i];
-
-        if(SVGPoints[i].get_y() < min)
+        }
+        if(SVGPoints[i].get_y() < min){
             min = SVGPoints[i].get_y();
             minPoint = SVGPoints[i];
+        }
     }
 
     pointsMinMaxY.push_back(minPoint);

@@ -145,6 +145,8 @@ int main(){
     for (vector<string>::const_iterator i = splitted2.begin(); i != splitted2.end(); i++){
         cout << *i << " -> ";
     }*/
-
+    //hacer funcion que llama con todos los paths (for)
+    //calcular ruta de cada punto?
+    //ver el video en la parte de enrutamiento
     return 0;
 }

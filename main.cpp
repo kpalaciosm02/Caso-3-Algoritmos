@@ -67,7 +67,7 @@ void takeNumbers(string path){// recibe la d
 }*/
 
 
-void Seleccion(xml_document<>* myDoc, vector<float> points){
+vector<path> Seleccion(xml_document<>* myDoc, vector<float> points){
     vector<string> absolutes = {};
     vector<string> relatives = {};
     vector<point> pointsS = {};
@@ -81,10 +81,16 @@ void Seleccion(xml_document<>* myDoc, vector<float> points){
     cout << endl;
     vector<float> xs = {};
     vector<float> ys = {};
-    pointsS = takeCoordsFromAbsolutePath(pathsD.at(0),idPaths.at(0), pointsS);
-    vector<point>MinMaxX = MaxAndMinX(pointsS);
-    vector<point>MinMaxY = MaxAndMinY(pointsS);
-    vector<path> pathsAfterSelection = compareUserAndSvgPoints(MinMaxX, MinMaxY, points, pathsS, pathsAfterSelection);
+    vector<path> pathsAfterSelection = {};
+    //pointsS = takeCoordsFromAbsolutePath(pathsD.at(0),idPaths.at(0), pointsS);
+    for (int i = 0; i < pathsD.size(); i++){
+        pointsS = takeCoordsFromAbsolutePath(pathsD.at(i), idPaths.at(0), pointsS);
+        vector<point>MinMaxX = MaxAndMinX(pointsS);
+        vector<point>MinMaxY = MaxAndMinY(pointsS);
+        pathsAfterSelection = compareUserAndSvgPoints(MinMaxX, MinMaxY, points, pathsS, pathsAfterSelection);
+        pointsS = {};
+    }
+    return pathsAfterSelection;
 }
 
 class AnimationGenerator : public Observer{

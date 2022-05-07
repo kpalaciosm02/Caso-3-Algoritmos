@@ -1,6 +1,7 @@
 #include "ObserverPattern.h"
 #include "selection.hpp"
 #include "main.hpp"
+#include <tuple>
 
 using namespace std;
 
@@ -73,6 +74,7 @@ vector<path> Seleccion(xml_document<>* myDoc, vector<float> points){
     vector<point> pointsS = {};
 
     vector<path> pathsS = SeparePathElements(myDoc);
+    //aqui se debe cambiar de relativo a absoluto
     vector<string> pathsD = SeparatePaths(pathsS);    //todos los paths D
     vector<string> idPaths = get_ids(pathsS);         //todos los paths ID
     for (vector<string>::const_iterator i = idPaths.begin(); i != idPaths.end(); i++){
@@ -91,6 +93,53 @@ vector<path> Seleccion(xml_document<>* myDoc, vector<float> points){
         pointsS = {};
     }
     return pathsAfterSelection;
+}
+
+bool IsRelativePath(string path){//returns 1 if the path is relative (true)
+    int path_size = path.size();
+    for (int i = 0; i < path_size; i++){
+        if (path.at(i) == '-')
+            return true;
+    }
+    return false;
+}
+
+tuple<float,float> ExtractAbsolutesFromRelativePath(string path){//extracts the first 2 coords from a path
+    float AbsoluteX = 0.0;
+    float AbsoluteY = 0.0;
+    int pathSize = path.size();
+    string number = "";
+    for (int i = 1; i < pathSize; i++){
+        char character = path.at(i);
+        if (character == 'c'){
+            AbsoluteY = stof(number);
+            break;
+        }
+        else if (character == ','){
+            AbsoluteX = stof(number);
+            number = "";
+        }
+        else{
+            number += character;
+        }    
+    };
+    return {AbsoluteX,AbsoluteY};
+}
+
+string RelativeToAbsolutePath(string path){//Function that recieves a string (relative path) and returns the same path but in its absolute form
+    auto [AbsoluteX, AbsoluteY] = ExtractAbsolutesFromRelativePath(path);
+    int pathSize = path.size();
+    string number = "";// + to_string(AbsoluteX) + to_string(AbsoluteY);
+    int startIndex = 0;
+    int finalIndex = 0;
+    bool firstLetterFound = false;
+    string finalPath = "M" + to_string(AbsoluteX) + to_string(AbsoluteY);//esperar a tener svg mas homogeneo
+    for (int i = 0; i < pathSize; i++){
+        if (!firstLetterFound){
+            if (path[i] == 'M')
+                firstLetterFound = true;
+        }
+    }
 }
 
 class AnimationGenerator : public Observer{
@@ -131,6 +180,10 @@ int main(){
      
     Seleccion(&myDoc, UserPoints);
 
+    string pathTest = "M4613.561,735.186c-816.044-148.961-2238.165-431.319-3058.823-607.843C2382.307,278.323,3804.335,561.206,4613.561,735.186z";
+    auto [AbsoluteX, AbsoluteY] = ExtractAbsolutesFromRelativePath(pathTest);
+    cout << "Coordenadas absolutas:" << AbsoluteX << ":" << AbsoluteY << endl;
+    cout << IsRelativePath("M593.953,539.108C1437.484,448,2914.226,311.023,3770.424,244.99C2914.896,337.478,1438.109,473.921,593.953,539.108z") << endl;
    /*
     for (vector<path>::const_iterator i = paths.begin(); i != paths.end(); i++){
         path p = *i;

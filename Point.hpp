@@ -15,6 +15,11 @@ class point{
             this->y = 0;
             this->idPath = "";
         }
+        point(float _x, float _y){
+            this->x = _x;
+            this->y = _y;
+        }
+        
         point(float _x, float _y, string _idPath){
             this->x = _x;
             this->y = _y;

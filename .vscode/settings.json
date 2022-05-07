@@ -3,6 +3,11 @@
         "unordered_map": "cpp",
         "iostream": "cpp",
         "xstring": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp"
     }
 }

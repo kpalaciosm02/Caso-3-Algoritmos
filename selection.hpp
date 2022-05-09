@@ -24,6 +24,9 @@ class Selection{
         vector<path> getPathsAS();
         void setPathsAS(vector<path> pathsAS);
         string getObserver();
+        bool IsRelativePath(string path);
+        tuple<float,float> ExtractAbsolutesFromRelativePath(string path);
+        string RelativeToAbsolutePath(string path);
 };
 
 Selection::Selection(){
@@ -197,6 +200,53 @@ vector<path> Selection::compareUserAndSvgPoints(vector<point> MaxMinX, vector<po
     }
 
     return pathsAfterSelection;
+}
+
+bool IsRelativePath(string path){//returns 1 if the path is relative (true)
+    int path_size = path.size();
+    for (int i = 0; i < path_size; i++){
+        if (path.at(i) == '-')
+            return true;
+    }
+    return false;
+}
+
+tuple<float,float> ExtractAbsolutesFromRelativePath(string path){//extracts the first 2 coords from a path
+    float AbsoluteX = 0.0;
+    float AbsoluteY = 0.0;
+    int pathSize = path.size();
+    string number = "";
+    for (int i = 1; i < pathSize; i++){
+        char character = path.at(i);
+        if (character == 'c'){
+            AbsoluteY = stof(number);
+            break;
+        }
+        else if (character == ','){
+            AbsoluteX = stof(number);
+            number = "";
+        }
+        else{
+            number += character;
+        }    
+    };
+    return {AbsoluteX,AbsoluteY};
+}
+
+string RelativeToAbsolutePath(string path){//Function that recieves a string (relative path) and returns the same path but in its absolute form
+    auto [AbsoluteX, AbsoluteY] = ExtractAbsolutesFromRelativePath(path);
+    int pathSize = path.size();
+    string number = "";// + to_string(AbsoluteX) + to_string(AbsoluteY);
+    int startIndex = 0;
+    int finalIndex = 0;
+    bool firstLetterFound = false;
+    string finalPath = "M" + to_string(AbsoluteX) + to_string(AbsoluteY);//esperar a tener svg mas homogeneo
+    for (int i = 0; i < pathSize; i++){
+        if (!firstLetterFound){
+            if (path[i] == 'M')
+                firstLetterFound = true;
+        }
+    }
 }
 
 void Selection::createSelection(xml_document<>* myDoc, vector<float> points){

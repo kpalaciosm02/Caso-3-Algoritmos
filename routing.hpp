@@ -22,7 +22,7 @@ class Routing{
         vector<point> takeCoordsFromPath(string path, vector<point>points);
         void calculateRoutesMovement(vector<point> pointsFromSelection);
         route createRoute(point point, int movement);
-        point createRouting(point point, int angle, float xOrigin, float yOrigin, float xDestiny, float yDestiny);
+        point createRouting(point point, float xOrigin, float yOrigin, float xDestiny, float yDestiny);
         float getHeight();
         void setHeight(float height);
         float getWidth();
@@ -87,54 +87,55 @@ vector<point> Routing::takeCoordsFromPath(string path, vector<point>points){
     return points;
 }
 
-void Routing::calculateRoutesMovement(vector<point> pPointsFromSelection){
-    int sizeMovement = (this->height + this->width)/16;
-    for(int i = 0; i < pPointsFromSelection.size(); i++){
-        point init = pPointsFromSelection[i];
+void Routing::calculateRoutesMovement(vector<point> pointsFromSelection){
+    int sizeMovement = (this->height + this->width)/8;
+    for(int i = 0; i < pointsFromSelection.size(); i++){
+        point init = pointsFromSelection[i];
         route routePoint = createRoute(init, sizeMovement);
         routes.push_back(routePoint);
     }
 }
 
-route Routing::createRoute(point pPoint, int pMovement){
+route Routing::createRoute(point pPoint, int movement){
     route newRoute = route();
     newRoute.addPointToRoute(pPoint);
 
     int angle = 60;
-    float xMovement;
-    float yMovement;
     float angleToRad = angle * PI / 180;
 
-    if(angle < 180){
-        xMovement = cos(angleToRad) * pMovement;
-        yMovement = sin(angleToRad) * pMovement;
-    }else{
-        xMovement = sin(angleToRad) * pMovement;
-        yMovement = cos(angleToRad) * pMovement; 
-    }
+    float xMovement;
+    float yMovement;
 
     float xDestiny = pPoint.get_x() + xMovement;
     float yDestiny = pPoint.get_y() + yMovement;
 
     int frames = 10;
-    bool creatingRoute = true;
+    bool createRoute = true;
 
     float xOrigin = ceil(xMovement/frames);
     float yOrigin = ceil(yMovement/frames);
 
-    while(creatingRoute){
+    if(angle < 180){
+        xMovement = cos(angleToRad) * movement;
+        yMovement = sin(angleToRad) * movement;
+    }else{
+        xMovement = sin(angleToRad) * movement;
+        yMovement = cos(angleToRad) * movement; 
+    }
+
+    while(createRoute){
         point tempLastPoint = newRoute.getLastPoint();
-        point pointToAdd = createRouting(tempLastPoint, angle, xOrigin, yOrigin, xDestiny, yDestiny);
+        point pointToAdd = createRouting(tempLastPoint, xOrigin, yOrigin, xDestiny, yDestiny);
 
         newRoute.addPointToRoute(pointToAdd);
 
         if(pointToAdd.get_x() == xDestiny && pointToAdd.get_y() == yDestiny)
-            creatingRoute = false;
+            createRoute = false;
     }
     return newRoute;
 }
 
-point Routing::createRouting(point pPoint, int pAngle, float xOrigin, float yOrigin, float xDestiny, float yDestiny){
+point Routing::createRouting(point pPoint, float xOrigin, float yOrigin, float xDestiny, float yDestiny){
     point newPoint;
     float newX = pPoint.get_x() + xOrigin;
     float newY = pPoint.get_y() + yOrigin;

@@ -44,8 +44,11 @@ vector<path> Selection::SeparePathElements(xml_document<>* myDoc){
     xml_node<>* pathXML = myDoc->first_node()->first_node("g");
     for (pathXML = pathXML->first_node(); pathXML != NULL; pathXML = pathXML->next_sibling()){
         string id_value = pathXML->first_attribute("id")->value();
-        string opacity_value = pathXML->first_attribute("opacity")->value();
+        cout << id_value << endl;
+        string opacity_value = pathXML->first_attribute("fill")->value();
+        cout << opacity_value << endl;
         string direction_value = pathXML->first_attribute("d")->value();
+        cout << direction_value << endl;
 
         path p(id_value, opacity_value, direction_value);
         paths.push_back(p);
@@ -68,7 +71,7 @@ vector<string> Selection::SeparatePaths(vector<path> paths){
 
 /*Function that takes the coords from an absolute path and separe them in vectors of x and y*/
 vector<point> Selection::takeCoordsFromAbsolutePath(string path, string id, vector<point>points){
-    int pathLarge = path.size();//encontrar la manera de sacar estos 2 vectores de la funcion para usarlos luego
+    int pathLarge = path.size();
     string sNumber = "";
     float fNumber = 0.0;
     bool isX = true;
@@ -99,7 +102,6 @@ vector<point> Selection::takeCoordsFromAbsolutePath(string path, string id, vect
     for (int i = 0; i < x.size(); i++){
         point point(x.at(i),y.at(i),id);
         points.push_back(point);
-        //point.print();
     }
     return points;
 }
@@ -202,16 +204,16 @@ vector<path> Selection::compareUserAndSvgPoints(vector<point> MaxMinX, vector<po
     return pathsAfterSelection;
 }
 
-bool IsRelativePath(string path){//returns 1 if the path is relative (true)
+/*bool IsRelativePath(string path){//returns 1 if the path is relative (true)
     int path_size = path.size();
     for (int i = 0; i < path_size; i++){
         if (path.at(i) == '-')
             return true;
     }
     return false;
-}
+}*/
 
-tuple<float,float> ExtractAbsolutesFromRelativePath(string path){//extracts the first 2 coords from a path
+/*tuple<float,float> ExtractAbsolutesFromRelativePath(string path){//extracts the first 2 coords from a path
     float AbsoluteX = 0.0;
     float AbsoluteY = 0.0;
     int pathSize = path.size();
@@ -231,9 +233,9 @@ tuple<float,float> ExtractAbsolutesFromRelativePath(string path){//extracts the 
         }    
     };
     return {AbsoluteX,AbsoluteY};
-}
+}*/
 
-string RelativeToAbsolutePath(string path){//Function that recieves a string (relative path) and returns the same path but in its absolute form
+/*string RelativeToAbsolutePath(string path){//Function that recieves a string (relative path) and returns the same path but in its absolute form
     auto [AbsoluteX, AbsoluteY] = ExtractAbsolutesFromRelativePath(path);
     int pathSize = path.size();
     string number = "";// + to_string(AbsoluteX) + to_string(AbsoluteY);
@@ -247,7 +249,7 @@ string RelativeToAbsolutePath(string path){//Function that recieves a string (re
                 firstLetterFound = true;
         }
     }
-}
+}*/
 
 void Selection::createSelection(xml_document<>* myDoc, vector<float> points){
     vector<string> absolutes = {};

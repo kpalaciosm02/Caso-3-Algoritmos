@@ -17,10 +17,26 @@ int main(){
     
     Selection selectionProcess;
     selectionProcess.createSelection(&myDoc, UserPoints);
-    selectionProcess.getPathsAS();
-    
-    //Routing routingProcess;
-    //routingProcess.calculateRoutes();
+    vector<path> prueba = selectionProcess.SeparePathElements(&myDoc);
 
+    for (vector<path>::const_iterator i = prueba.begin(); i != prueba.end(); i++){
+        path p = *i;
+        p.print();
+    }
+    cout << endl;
+
+
+    vector<path> pathsSelection = selectionProcess.getPathsAS();
+    vector<string> stringPathsSelection = selectionProcess.SeparatePaths(pathsSelection);
+
+    
+    Routing routingProcess;
+    vector<point> pointsAS = routingProcess.pathsToPoints(stringPathsSelection);
+    routingProcess.calculateRoutesMovement(pointsAS);
+    vector<route> vc = routingProcess.getRoutes();
+    for(vector<route>::const_iterator i = vc.begin(); i != vc.end(); i++)
+    {
+        
+    }    
     return 0;
 }

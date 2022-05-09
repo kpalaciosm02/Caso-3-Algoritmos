@@ -18,7 +18,7 @@ int main(){
     Selection selectionProcess;
     selectionProcess.createSelection(&myDoc, UserPoints);
     selectionProcess.getPathsAS();
-
+    
     //Routing routingProcess;
     //routingProcess.calculateRoutes();
 

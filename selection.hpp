@@ -100,6 +100,7 @@ vector<point> Selection::takeCoordsFromAbsolutePath(string path, string id, vect
     }
     return points;
 }
+
 /*Function that gets all the ids from the paths in the same order as the ds from the SeparePathsFunction*/
 vector<string> Selection::get_ids(vector<path> paths){
     int counter = 0;
@@ -217,6 +218,12 @@ void Selection::createSelection(xml_document<>* myDoc, vector<float> points){
         pointsS = {};
     }
     setPathsAS(pathsAfterSelection);
+
+    for (vector<path>::const_iterator i = pathsAfterSelection.begin(); i != pathsAfterSelection.end(); i++){
+        path p = *i;
+        p.print();
+    }
+    cout << endl;
 }
 
 vector<path> Selection::getPathsAS(){

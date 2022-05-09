@@ -20,13 +20,13 @@ class Routing{
         string getObserver();
         vector<point> pathsToPoints(vector<string> pathsAfterSelection);
         vector<point> takeCoordsFromPath(string path, vector<point>points);
-        void calculateRoutesMovement(vector<point> pPointsFromSelection);
-        route createRoute(point pPoint, int pMovement);
-        point createRouting(point pPoint, int pAngle, float xOrigin, float yOrigin, float xDestiny, float yDestiny);
+        void calculateRoutesMovement(vector<point> pointsFromSelection);
+        route createRoute(point point, int movement);
+        point createRouting(point point, int angle, float xOrigin, float yOrigin, float xDestiny, float yDestiny);
         float getHeight();
-        void setHeight(float pHeight);
+        void setHeight(float height);
         float getWidth();
-        void setWidth(float pWidth);
+        void setWidth(float width);
         vector<route> getRoutes();
 };
 
@@ -121,10 +121,6 @@ route Routing::createRoute(point pPoint, int pMovement){
 
     float xOrigin = ceil(xMovement/frames);
     float yOrigin = ceil(yMovement/frames);
-
-    cout << "xMove: " << xMovement << "yMove" << yMovement << endl;
-    cout << "xToMove: " << xOrigin << "yToMove: " << yOrigin << endl;
-    cout << "xDestino: " << xDestiny << "yDes: " << yDestiny << endl;
 
     while(creatingRoute){
         point tempLastPoint = newRoute.getLastPoint();

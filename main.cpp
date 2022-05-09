@@ -25,18 +25,21 @@ int main(){
     }
     cout << endl;
 
-
     vector<path> pathsSelection = selectionProcess.getPathsAS();
     vector<string> stringPathsSelection = selectionProcess.SeparatePaths(pathsSelection);
 
-    
     Routing routingProcess;
     vector<point> pointsAS = routingProcess.pathsToPoints(stringPathsSelection);
     routingProcess.calculateRoutesMovement(pointsAS);
     vector<route> vc = routingProcess.getRoutes();
     for(vector<route>::const_iterator i = vc.begin(); i != vc.end(); i++)
     {
-        
+        route r = *i;
+        vector<point> rp = r.getRoutePoints();
+        for(vector<point>::const_iterator i = rp.begin(); i != rp.end(); i++){
+            point pr = *i;
+            pr.print();
+        }
     }    
     return 0;
 }

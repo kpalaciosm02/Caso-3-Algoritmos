@@ -80,7 +80,7 @@ vector<point> Selection::takeCoordsFromAbsolutePath(string path, string id, vect
     for (int i = 0; i < pathLarge; i++){
         if (path[i] == 'M' || path[i] == 'L' || path[i] == 'H' || path[i] == 'V' || path[i] == 'C' || path[i] == 'S' || path[i] == 'Q' || path[i] == 'T' || path[i] == 'A' || path[i] == 'z' || path[i] == ',' || path[i] == 'Z'){
             if (i != 0){
-                //cout << "sNumber: " << sNumber << endl;
+                cout << "sNumber: " << sNumber << endl;
                 fNumber = stof(sNumber);
                 if (isX){
                     x.push_back(fNumber);

@@ -88,7 +88,7 @@ vector<point> Routing::takeCoordsFromPath(string path, vector<point>points){
 }
 
 void Routing::calculateRoutesMovement(vector<point> pointsFromSelection){
-    int sizeMovement = (this->height + this->width)/8;
+    int sizeMovement = (this->height + this->width)/16;
     for(int i = 0; i < pointsFromSelection.size(); i++){
         point init = pointsFromSelection[i];
         route routePoint = createRoute(init, sizeMovement);

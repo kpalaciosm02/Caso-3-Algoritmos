@@ -3,6 +3,7 @@
 #include "routing.hpp"
 #include "main.hpp"
 #include <tuple>
+#include "generation.hpp"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(){
 
     for (vector<path>::const_iterator i = prueba.begin(); i != prueba.end(); i++){
         path p = *i;
-        p.print();
+        //p.print();
     }
     cout << endl;
 
@@ -41,6 +42,9 @@ int main(){
             point pr = *i;
             pr.print();
         }
-    }    
+    }
+    /*cout << "----------------------------------------------------------------------------------------------------------" << endl;
+    Generation generacion(vc,1);
+    generacion.generatePath();*/
     return 0;
 }

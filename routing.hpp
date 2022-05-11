@@ -10,19 +10,19 @@ using namespace std;
 
 class Routing{
     protected:
-        float height = 800;
-        float width = 800;
+        float height = 100;
+        float width = 100;
         string observer;
         vector<route> routes;
     public:
         Routing();
         Routing(string pObserver);
         string getObserver();
-        vector<point> pathsToPoints(vector<string> pathsAfterSelection);
+        void pathsToPoints(vector<string> pathsAfterSelection);
         vector<point> takeCoordsFromPath(string path, vector<point>points);
         void calculateRoutesMovement(vector<point> pointsFromSelection);
-        route createRoute(point point, int movement);
-        point createRouting(point point, float xOrigin, float yOrigin, float xDestiny, float yDestiny);
+        route createRoute(point point);
+        point createRouting(point pPoint, point origin, point Destiny);
         float getHeight();
         void setHeight(float height);
         float getWidth();
@@ -39,15 +39,13 @@ Routing::Routing(string pObserver){
     
 }
 
-vector<point> Routing::pathsToPoints(vector<string> pathsAfterSelection){
+void Routing::pathsToPoints(vector<string> pathsAfterSelection){
     vector<point> pointsS = {};
-    vector<point> pointsAS = {};
     for (int i = 0; i < pathsAfterSelection.size(); i++){
         pointsS = takeCoordsFromPath(pathsAfterSelection.at(i), pointsS);
-        pointsAS = pointsS;
+        calculateRoutesMovement(pointsS);
         pointsS = {};
     }
-    return pointsAS;
 }
 
 vector<point> Routing::takeCoordsFromPath(string path, vector<point>points){
@@ -88,68 +86,70 @@ vector<point> Routing::takeCoordsFromPath(string path, vector<point>points){
 }
 
 void Routing::calculateRoutesMovement(vector<point> pointsFromSelection){
-    int sizeMovement = (this->height + this->width)/16;
     for(int i = 0; i < pointsFromSelection.size(); i++){
         point init = pointsFromSelection[i];
-        route routePoint = createRoute(init, sizeMovement);
+        route routePoint = createRoute(init);
         routes.push_back(routePoint);
     }
 }
 
-route Routing::createRoute(point pPoint, int movement){
+route Routing::createRoute(point pPoint){
     route newRoute = route();
     newRoute.addPointToRoute(pPoint);
 
-    int angle = 60;
-    float angleToRad = angle * PI / 180;
-
-    float xMovement;
-    float yMovement;
-
-    float xDestiny = pPoint.get_x() + xMovement;
-    float yDestiny = pPoint.get_y() + yMovement;
-
-    int frames = 10;
+    float angle = 50;
+    int frames = 2;
+    float sizeMove = 0;
     bool createRoute = true;
 
-    float xOrigin = ceil(xMovement/frames);
-    float yOrigin = ceil(yMovement/frames);
+    point origin(cos(angle), sin(angle));
+    point movement(this->width/2, this->height/2);
 
-    if(angle < 180){
-        xMovement = cos(angleToRad) * movement;
-        yMovement = sin(angleToRad) * movement;
-    }else{
-        xMovement = sin(angleToRad) * movement;
-        yMovement = cos(angleToRad) * movement; 
-    }
+    if(movement.get_x() == movement.get_y())
+        sizeMove = movement.get_x();
+    if(movement.get_x() < movement.get_y())
+        sizeMove = movement.get_x();
+    if(movement.get_x() > movement.get_y())
+        sizeMove = movement.get_y();
+
+    point Destiny(movement.get_x() + (sizeMove * origin.get_x()), movement.get_y() - (sizeMove * origin.get_y()));
+
+    int counter = 0;
 
     while(createRoute){
+        counter++;
         point tempLastPoint = newRoute.getLastPoint();
-        point pointToAdd = createRouting(tempLastPoint, xOrigin, yOrigin, xDestiny, yDestiny);
+
+        point pointToAdd = createRouting(tempLastPoint, origin, Destiny);
 
         newRoute.addPointToRoute(pointToAdd);
 
-        if(pointToAdd.get_x() == xDestiny && pointToAdd.get_y() == yDestiny)
+        if(counter == 2)
             createRoute = false;
     }
     return newRoute;
 }
 
-point Routing::createRouting(point pPoint, float xOrigin, float yOrigin, float xDestiny, float yDestiny){
+point Routing::createRouting(point pPoint, point origin, point Destiny){
     point newPoint;
-    float newX = pPoint.get_x() + xOrigin;
-    float newY = pPoint.get_y() + yOrigin;
+    float newX = pPoint.get_x() + Destiny.get_x();
+    float newY = pPoint.get_y() + Destiny.get_y();
     
-    if(xDestiny - newX > xOrigin){
-        if(yDestiny - newY > yOrigin)
+    if(newX > origin.get_x()){
+        if(newY > origin.get_y()){
             newPoint = point(newX, newY);
-        else
-            newPoint = point(newX, yDestiny);
+        }
+        else{
+            newPoint = point(newX, Destiny.get_y());
+        }
+            
     }else{
-        if(yDestiny - newY > yOrigin)
-            newPoint = point(xDestiny, newY);
-        else
-            newPoint = point(xDestiny, yDestiny);
+        if(newY > origin.get_y()){
+            newPoint = point(Destiny.get_x(), newY);
+        }
+        else{
+            newPoint = point(Destiny.get_x(), Destiny.get_y());
+        }
     }
     return newPoint;
 }

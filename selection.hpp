@@ -44,11 +44,8 @@ vector<path> Selection::SeparePathElements(xml_document<>* myDoc){
     xml_node<>* pathXML = myDoc->first_node()->first_node("g");
     for (pathXML = pathXML->first_node(); pathXML != NULL; pathXML = pathXML->next_sibling()){
         string id_value = pathXML->first_attribute("id")->value();
-        cout << id_value << endl;
         string opacity_value = pathXML->first_attribute("fill")->value();
-        cout << opacity_value << endl;
         string direction_value = pathXML->first_attribute("d")->value();
-        cout << direction_value << endl;
 
         path p(id_value, opacity_value, direction_value);
         paths.push_back(p);
@@ -80,7 +77,6 @@ vector<point> Selection::takeCoordsFromAbsolutePath(string path, string id, vect
     for (int i = 0; i < pathLarge; i++){
         if (path[i] == 'M' || path[i] == 'L' || path[i] == 'H' || path[i] == 'V' || path[i] == 'C' || path[i] == 'S' || path[i] == 'Q' || path[i] == 'T' || path[i] == 'A' || path[i] == 'z' || path[i] == ',' || path[i] == 'Z'){
             if (i != 0){
-                //cout << "sNumber: " << sNumber << endl;
                 fNumber = stof(sNumber);
                 if (isX){
                     x.push_back(fNumber);

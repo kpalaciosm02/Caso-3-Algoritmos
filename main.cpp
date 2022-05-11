@@ -9,8 +9,9 @@ using namespace std;
 
 int main(){
     //Leer XML
-
+    cout << "primera linea" << endl;
     file<> file("test2.svg"); // Lee y carga el archivo en memoria
+    cout << "abri el archivo" << endl;
     xml_document<> myDoc; //Raíz del árbol DOM
     myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
@@ -27,6 +28,7 @@ int main(){
     Routing routingProcess;
     routingProcess.pathsToPoints(stringPathsSelection);
     vector<route> vc = routingProcess.getRoutes();
+    cout << "Lleguee" << endl;
     for (vector<route>::const_iterator i = vc.begin(); i != vc.end(); i++){
         route r = *i;
         vector<point> rp = r.getRoutePoints();

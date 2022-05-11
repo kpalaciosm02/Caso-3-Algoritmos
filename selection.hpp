@@ -44,7 +44,7 @@ vector<path> Selection::SeparePathElements(xml_document<>* myDoc){
     xml_node<>* pathXML = myDoc->first_node()->first_node("g");
     for (pathXML = pathXML->first_node(); pathXML != NULL; pathXML = pathXML->next_sibling()){
         string id_value = pathXML->first_attribute("id")->value();
-        string opacity_value = pathXML->first_attribute("fill")->value();
+        string opacity_value = pathXML->first_attribute("opacity")->value();
         string direction_value = pathXML->first_attribute("d")->value();
 
         path p(id_value, opacity_value, direction_value);

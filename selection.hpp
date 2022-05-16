@@ -266,12 +266,12 @@ void Selection::createSelection(xml_document<>* myDoc, vector<float> points){
         pointsS = {};
     }
     setPathsAS(pathsAfterSelection);
-
+    /*
     for (vector<path>::const_iterator i = pathsAfterSelection.begin(); i != pathsAfterSelection.end(); i++){
         path p = *i;
         p.print();
     }
-    cout << endl;
+    cout << endl;*/
 }
 
 vector<path> Selection::getPathsAS(){
